@@ -12,7 +12,45 @@ const PRIVATE_APP_ACCESS = '';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
-// * Code for Route 1 goes here
+app.get('/', async (req, res) => {
+    const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles?limit=10&properties=name,make,model';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const resp = await axios.get(customEndpoint, { headers });
+        const data = resp.data.results;
+        res.render('custom', { title: 'Custom | HubSpot APIs', data });      
+    } catch (error) {
+        console.error('Error fetching custom object data:', error.response?.data || error.message);
+        res.status(500).send('Error loading homepage data');
+    }
+});
+
+/views/custom.pug
+doctype html
+html
+    head
+        title= title
+        meta(charset="UTF-8")
+    body
+        h1= title
+
+        if data.length
+            ul
+                each record in data
+                    li
+                        strong Record ID:
+                        | #{record.id}
+                        br
+                        each value, key in record.properties
+                            |#{key}: #{value}
+                            br
+                        hr
+        else
+            p No vehicle records found.
+
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 

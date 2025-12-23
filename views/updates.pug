@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset="UTF-8")
+  body
+    h1= title
+
+ //- Link to return to the homepage
+    a(href="/") Return to the homepage
+    br
+    br
+
+    form(action="/update-cobj" method="POST")
+
+      label(for="name") Vehicle Name
+      br
+      input(type="text" name="name" required)
+      br
+      br
+
+      label(for="make") Make
+      br
+      select(name="make" required)
+        option(value="") -- Select Make --
+        each option in makeOptions
+          option(value=option.value)= option.label
+      br
+      br
+
+      label(for="model") Model
+      br
+      select(name="model" required)
+        option(value="") -- Select Model --
+        each option in modelOptions
+          option(value=option.value)= option.label
+      br
+      br
+
+      button(type="submit") Submit

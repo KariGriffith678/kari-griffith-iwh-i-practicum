@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset="UTF-8")
+    style.
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+      th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+      th { background-color: #f2f2f2; }
+      tr:nth-child(even) { background-color: #f9f9f9; }
+      tr:hover { background-color: #f1f1f1; }
+      a { display: inline-block; margin-top: 20px; }
+
+  body
+    h1= title
+
+    //- Link to the form
+    a(href="/update-cobj") Add or Update Vehicle
+
+    if data.length
+      table
+        thead
+          tr
+            th ID
+            th Name
+            th Make
+            th Model
+        tbody
+          each record in data
+            tr
+              td= record.id
+              td= record.properties.name || 'N/A'
+              td= record.properties.make || 'N/A'
+              td= record.properties.model || 'N/A'
+    else
+      p No vehicle records found.
+

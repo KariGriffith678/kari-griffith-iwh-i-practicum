@@ -13,39 +13,46 @@ const PRIVATE_APP_ACCESS = '';
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 app.get('/', async (req, res) => {
-    const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles?limit=10&properties=name,make,model';
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const resp = await axios.get(customEndpoint, { headers });
-        const data = resp.data.results;
-        res.render('custom', { title: 'Custom | HubSpot APIs', data });      
-    } catch (error) {
-        console.error('Error fetching custom object data:', error.response?.data || error.message);
-        res.status(500).send('Error loading homepage data');
-    }
+  const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles?limit=10&properties=name,make,model';
+  const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    'Content-Type': 'application/json'
+  };
+
+  try {
+    const resp = await axios.get(customEndpoint, { headers });
+    const data = resp.data.results;
+
+    res.render('custom', {
+      title: 'Vehicles | HubSpot Custom Objects',
+      data
+    });
+  } catch (error) {
+    console.error('Error fetching custom object data:', error.response?.data || error.message);
+    res.status(500).send('Error loading homepage data');
+  }
 });
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
-app.get('/form', async (req, res) => {
-    const objectType = 'p244665714_vehicles';
-      const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    try {
-        const respMake = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/make`, { headers });
-        const respModel = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/model`, { headers });
+app.get('/update-cobj', async (req, res) => {
+  const objectType = 'p244665714_vehicles';
+  const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    'Content-Type': 'application/json'
+  };
 
-        const makeOptions = respMake.data.options || [];
-        const modelOptions = respModel.data.options || [];
+  try {
+    const respMake = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/make`, { headers });
+    const respModel = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/model`, { headers });
 
-        res.render('form', {
-          title: 'Add or Update Vehicle',
-          makeOptions,
-          modelOptions
+    const makeOptions = respMake.data.options || [];
+    const modelOptions = respModel.data.options || [];
+
+    res.render('updates', {
+      title: 'Create or Update Vehicle',
+      makeOptions,
+      modelOptions
     });
   } catch (error) {
     console.error('Error fetching picklist options:', error.response?.data || error.message);
@@ -55,7 +62,7 @@ app.get('/form', async (req, res) => {
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
-app.post('/submit', async (req, res) => {
+app.post('/update-cobj', async (req, res) => {
   const { name, make, model } = req.body;
   const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles';
   const headers = {
@@ -69,6 +76,7 @@ app.post('/submit', async (req, res) => {
 
   try {
     await axios.post(customEndpoint, body, { headers });
+
     res.redirect('/');
   } catch (error) {
     console.error('Error creating/updating custom object:', error.response?.data || error.message);

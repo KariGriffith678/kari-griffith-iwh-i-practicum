@@ -28,33 +28,13 @@ app.get('/', async (req, res) => {
     }
 });
 
-/views/custom.pug
-doctype html
-html
-    head
-        title= title
-        meta(charset="UTF-8")
-    body
-        h1= title
-
-        if data.length
-            ul
-                each record in data
-                    li
-                        strong Record ID:
-                        | #{record.id}
-                        br
-                        each value, key in record.properties
-                            |#{key}: #{value}
-                            br
-                        hr
-        else
-            p No vehicle records found.
-
-
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
-// * Code for Route 2 goes here
+app.ger('/form', (req, res) +> {
+    res.render('form', {
+        title: 'Add or Update Vehicle'
+    });
+});
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 

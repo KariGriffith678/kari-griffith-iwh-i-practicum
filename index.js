@@ -23,7 +23,7 @@ app.use(express.json());
 app.get('/', async (req, res) => {
   const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles?limit=10&properties=name,make,model';
   const headers = {
-    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
     'Content-Type': 'application/json'
   };
 
@@ -46,7 +46,7 @@ app.get('/', async (req, res) => {
 app.get('/update-cobj', async (req, res) => {
   const objectType = 'p244665714_vehicles';
   const headers = {
-    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
     'Content-Type': 'application/json'
   };
 
@@ -74,7 +74,7 @@ app.post('/update-cobj', async (req, res) => {
   const { name, make, model } = req.body;
   const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles';
   const headers = {
-    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
     'Content-Type': 'application/json'
   };
 
@@ -103,7 +103,7 @@ app.listen(PORT, () => {
 app.get('/contacts', async (req, res) => {
     const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
     const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
     try {
@@ -126,7 +126,7 @@ app.post('/update', async (req, res) => {
     const email = req.query.email;
     const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
     const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     };
 

@@ -50,7 +50,7 @@ app.get('/update-cobj', async (req, res) => {
     const modelOptions = respModel.data.options || [];
 
     res.render('updates', {
-      title: 'Create or Update Vehicle',
+      title: 'Update Custom Object Form | Integrating With HubSpot I Practicum',
       makeOptions,
       modelOptions
     });

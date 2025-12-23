@@ -1,10 +1,14 @@
-require('dotenv').config();
+require('dotenv').config(); // Load .env
 
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// HubSpot token from .env
 const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
+
+// Port
+const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));

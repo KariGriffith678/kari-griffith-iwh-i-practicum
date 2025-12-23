@@ -29,7 +29,7 @@ app.get('/', async (req, res) => {
 
   try {
     const resp = await axios.get(customEndpoint, { headers });
-    const data = resp.data.results;
+    const data = resp.data?.results || [];
 
     res.render('custom', {
       title: 'Vehicles | HubSpot Custom Objects',

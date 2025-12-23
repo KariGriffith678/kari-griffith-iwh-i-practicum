@@ -6,6 +6,7 @@ const app = express();
 
 // HubSpot token from .env
 const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
+console.log('HubSpot token loaded:', PRIVATE_APP_ACCESS ? 'Yes' : 'No');
 
 // Port
 const PORT = process.env.PORT || 3000;

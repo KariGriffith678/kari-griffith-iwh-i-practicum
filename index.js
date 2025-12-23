@@ -30,15 +30,55 @@ app.get('/', async (req, res) => {
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
-app.ger('/form', (req, res) +> {
-    res.render('form', {
-        title: 'Add or Update Vehicle'
+app.get('/form', async (req, res) => {
+    const objectType = 'p244665714_vehicles';
+      const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    try {
+        const respMake = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/make`, { headers });
+        const respModel = await axios.get(`https://api.hubapi.com/crm/v3/properties/${objectType}/model`, { headers });
+
+        const makeOptions = respMake.data.options || [];
+        const modelOptions = respModel.data.options || [];
+
+        res.render('form', {
+          title: 'Add or Update Vehicle',
+          makeOptions,
+          modelOptions
     });
+  } catch (error) {
+    console.error('Error fetching picklist options:', error.response?.data || error.message);
+    res.status(500).send('Error loading form');
+  }
 });
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
-// * Code for Route 3 goes here
+app.post('/submit', async (req, res) => {
+  const { name, make, model } = req.body;
+  const customEndpoint = 'https://api.hubapi.com/crm/v3/objects/p244665714_vehicles';
+  const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+    'Content-Type': 'application/json'
+  };
+
+  const body = {
+    properties: { name, make, model }
+  };
+
+  try {
+    await axios.post(customEndpoint, body, { headers });
+    res.redirect('/');
+  } catch (error) {
+    console.error('Error creating/updating custom object:', error.response?.data || error.message);
+    res.status(500).send('Error submitting form');
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
 
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 

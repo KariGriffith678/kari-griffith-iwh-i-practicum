@@ -1,0 +1,20 @@
+html
+    head
+        title= title
+        meta(charset="UTF-8")
+    body
+        h1= title
+
+        if data.length
+            ul
+                each record in data
+                    li
+                        strong Record ID:
+                        | #{record.id}
+                        br
+                        each value, key in record.properties
+                            |#{key}: #{value}
+                            br
+                        hr
+        else
+            p No vehicle records found.

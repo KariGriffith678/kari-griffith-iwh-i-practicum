@@ -33,8 +33,8 @@ app.get('/', async (req, res) => {
 
     res.render('custom', {
       title: 'Vehicles | HubSpot Custom Objects',
-      data
-    });
+      const data = resp.data?.results || [];
+res.render('custom', { title: 'Vehicles | HubSpot Custom Objects', data });
   } catch (error) {
     console.error('Error fetching custom object data:', error.response?.data || error.message);
     res.status(500).send('Error loading homepage data');

@@ -1,8 +1,10 @@
 require('dotenv').config();
+
 const express = require('express');
 const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
 
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
